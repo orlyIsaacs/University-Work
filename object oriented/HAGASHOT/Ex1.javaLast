@@ -1,0 +1,123 @@
+package HAGASHOT;
+
+import java.util.Arrays;
+
+public class Ex1 {
+	
+	//Q1
+	public static void byteSort(byte[] a)
+	{
+		int [] ans= new int[256];
+		for (int i=0; i<a.length; i++)
+			ans[a[i]+128]++;
+		Arrays.toString(ans);
+		int k=0;
+		for(int i=0; i<ans.length; i++)
+		{
+			while(ans[i]>0)
+			{
+				a[k]=(byte)(i-128); 
+				ans[i]--;
+				k++;
+			}
+		}
+		
+	}
+	//Q2
+	public static void kSort(int[] a, int k)
+	{
+		int [] ans= new int[a.length];
+		int min= a[0]; 	int p=0;// P מסמל אינדקס במערך התשובה
+		
+		for(int i=0; i<a.length; i++) // מציאת המינמלי
+			if (min>a[i])
+				min= a[i];
+	
+	    for(int j=0; j<a.length; j++) // הכנסה למערך התשובה את כל המינמליים
+			{
+			     	if (a[j]==min)
+				{
+					ans[p]=min;
+					p++;
+				}
+			}
+	    // עד פה מצאתי פעם אחת את המינימום והכנסתי את כל המינימאליים מהמספר הזה למערך
+		
+
+		for(int i=0; i<k-1; i++) // עושה פה את הפעולות K פעמים
+		{
+
+			
+			int startPoint =0;
+			while (a[startPoint]<=ans[p-1])      // מצאית האיבר הראשון במערך שאינו נרשם כבר 
+				startPoint ++;
+			
+			min=a[startPoint]; // הגדרת המינמום כאיבר הראשון השונה מהאיברים שנכנסו 
+			
+			for(int t=startPoint; t<a.length; t++)  // מצציאת המינמלי  החדש
+			if (a[t]>ans[p-1] &&a[t]<=min)
+				min=a[t];
+			
+		   
+		    for(int j=0; j<a.length; j++) // הכנסת המינמלי החדש למערך התשובה
+		{
+		     	if (a[j]==min)
+			{
+				ans[p]=min;
+				p++;
+			}
+		}
+		}
+		for(int i=0; i<ans.length; i++)
+			a[i]=ans[i]; // העתקה אחרונה 
+			
+	}
+	
+	// Q3
+	public static boolean indexEqual(int[] a)
+	{
+		int f=0; int l=a.length-1; 
+		while(f<=l)
+		{
+			int m=(f+l)/2;
+			if (a[m]==m) return true;
+			else if (a[m]>m)
+				l=m-1;
+			else
+				f=m+1;
+		}
+		return false;
+	}
+
+	
+	
+	public static void main(String[] args) {
+		System.out.println("Q1-");
+		byte[] b= {-120,3,44,127,6,-120};
+		System.out.println(Arrays.toString(b));
+		byteSort(b);
+		System.out.println("after sort-");
+		System.out.println(Arrays.toString(b));
+	
+		
+		System.out.println("Q2-");
+		int[] arr= {3,1,0,2,1,5,6,4444,-9,-87,-9  ,-9};
+		System.out.println(Arrays.toString(arr));
+		kSort(arr,9 );
+		System.out.println("after sort");
+		System.out.println(Arrays.toString(arr));
+		
+		
+		System.out.println("Q3-");
+		int [] a= {-5,-7,2,3,5,7};
+		System.out.println(Arrays.toString(a));
+		System.out.println("is there a nunber that is equal to his index?");
+	    System.out.println(indexEqual(a));
+		
+		
+		
+		
+		
+	}
+
+}
